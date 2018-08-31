@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vuejs Github API (displays some user info)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+
+  
+<div id="app" v-cloak>
+   <transition name="fade" mode="out-in">
+      <div v-if="!loaded" id="overlay"></div>
+   </transition>
+   <transition name="fade" mode="out-in">
+      <div v-if="!userdata" id="search-box" key="search-box" v-on:keyup.enter="getUserData">
+         <img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub Logo" title="GitHub Logo" class="search-box__logo">
+         <input type="text" v-model="username" name="username" class="search-box__input" placeholder="Username..." autofocus>
+         <transition name="fade" mode="out-in">
+            <div v-if="error" id="search-box__error">{{error}}</div>
+         </transition>
+         <button v-on:click="getUserData" class="search-box__button">Get</button>
+      </div>
+      <div v-else id="user-info" key="user-info">
+         <a :href="userdata.html_url" target="_blank">
+            <img id="user-info__avatar" :src="userdata.avatar_url" :alt="userdata.name + '\'s profile pic'" :title="userdata.name + '\'s profile pic'"/>
+            <h1 id="user-info__name">{{userdata.name}}</h1>
+            <div id="user-info__lname">{{userdata.login}}</div>
+         </a>
+         <a :href="'mailto:' + userdata.email" id="user-info__email">{{userdata.email}}</a>
+         <div id="user-info__overview">
+            <div id="user-info__repos">Repositories<span>{{userdata.public_repos}}</span></div>
+            <div id="user-info__followers">Followers<span>{{userdata.followers}}</span></div>
+            <div id="user-info__following">Following<span>{{userdata.following}}</span></div>
+         </div>
+         <div id="user-info__bio">{{userdata.bio}}</div>
+         <button id="user-info__restart-btn" v-on:click="restart">Restart</button>
+      </div>
+   </transition>
+</div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js'></script>
+
+  
+
+    <script  src="js/index.js"></script>
+
+
+
+
+</body>
+
+</html>
